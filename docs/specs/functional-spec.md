@@ -1,149 +1,132 @@
 # Title & Metadata
-**Feature / System Name:** User Password Reset Flow
-**ID:** SPEC-AUTH-001
-**Version:** 1.0
-**Status:** Draft
-**Type:** Core Functional Specification
+**Feature / System Name**: UI Screenshot Test Case Generator & QA Plan
+**Spec ID**: SPEC-QA-001
+**Version**: 1.0
+**Status**: Draft (Blocked - Missing Input)
+**Spec Type**: QA Test Specification
 
 # Overview & Purpose
-The User Password Reset Flow provides a secure, self-service mechanism for registered users to regain access to their accounts if they forget their passwords. This feature ensures users can recover their accounts without manual intervention from customer support, utilizing a time-bound, single-use token sent via email.
+The purpose of this specification is to define and generate a comprehensive suite of test cases based on a provided user interface screenshot. The generated test cases must cover all visible functionalities, UI elements, buttons, links, fields, validations, and navigation. The output is structured as a tabular test plan suitable for Excel export, applying standard test design techniques (Equivalence Partitioning, Boundary Value Analysis, Decision Table, State Transition, Error Guessing) to ensure robust positive and negative testing coverage.
 
 # Goals
-- Provide a frictionless, self-service account recovery experience for users.
-- Reduce password-related customer support tickets by 80%.
-- Ensure account recovery meets industry-standard security practices, specifically preventing account enumeration and token reuse.
+* Generate clear, simple, and non-duplicate test cases for all visible UI elements.
+* Apply industry-standard test design techniques to ensure comprehensive coverage (positive, negative, boundary, and edge cases).
+* Format the output strictly into a specified 10-column table for direct Excel integration.
+* Avoid assumptions about backend or invisible functionality.
 
 # Target Users
-- **Registered Users:** Individuals who have an existing account but cannot remember their credentials.
-- **Customer Support (Indirect):** Benefiting from a reduced volume of manual password reset requests.
+* **QA Engineers / Testers**: To execute the generated test cases.
+* **Business Analysts / Product Managers**: To verify that the UI meets intended design and functional requirements.
+* **Developers**: To understand the exact validation and boundary expectations of the UI elements.
 
 # Stakeholders
-- Product Management
-- Security / InfoSec Team
-- Customer Support Lead
+* QA Lead
+* Product Owner
+* Development Team Lead
 
 # Scope (In / Out)
-**In Scope:**
-- "Forgot Password" request page and form.
-- Generation and database storage of secure, time-bound reset tokens.
-- Dispatching reset emails via the existing email provider.
-- Password reset form (token validation and new password submission).
-- Updating the user's password hash in the database.
+**In Scope**:
+* Visual analysis of the provided screenshot.
+* Generation of test cases for visible UI elements (buttons, links, text fields, dropdowns, etc.).
+* Identification of implied field validations and boundary conditions based on standard UI patterns.
+* Positive and negative test scenarios.
+* Expected error and success messages based on visual cues.
+* Formatting output into the requested Excel-compatible table.
 
-**Out of Scope:**
-- SMS or Authenticator-based account recovery.
-- "Change Password" flow for already authenticated users (handled in Account Settings).
-- Magic link passwordless login.
+**Out of Scope**:
+* Testing of functionality not visible in the screenshot.
+* Backend, API, performance, or security testing.
+* Automated test script generation (e.g., Selenium, Cypress code).
 
 # MoSCoW Prioritization
-- **Must Have:** Email submission form, secure token generation, email dispatch, token validation, password update functionality.
-- **Should Have:** Rate limiting on reset requests to prevent spam and abuse.
-- **Could Have:** Audit logging of reset requests for security monitoring.
-- **Won't Have:** Alternative delivery methods (e.g., SMS, WhatsApp) for this release.
+* **Must Have**: Sequential Test Case IDs (TC_001, etc.), 10-column Excel-compatible format, application of specific test design techniques, coverage of all visible elements.
+* **Should Have**: Detailed, step-by-step execution instructions for each test case.
+* **Could Have**: Identification of state transitions if multiple UI states are implied.
+* **Won't Have**: Assumptions about hidden menus, off-screen elements, or non-visual business logic.
 
 # Functional Requirements
-- **FR1: Request Reset:** The system must provide a form accepting an email address to initiate the reset process.
-- **FR2: Token Generation:** The system must generate a cryptographically secure, single-use token associated with the user's account, expiring in 15 minutes.
-- **FR3: Email Dispatch:** The system must send an email containing a unique reset link to the provided address if it matches an active account.
-- **FR4: Anti-Enumeration:** The system must display the identical success message regardless of whether the submitted email exists in the system.
-- **FR5: Token Validation:** The system must validate the token's existence, expiration, and usage status when the reset link is accessed.
-- **FR6: Password Update:** The system must accept a new password, validate it against complexity rules, hash it, and update the user record.
+*Note: Because the source screenshot was not provided in the prompt, specific functional requirements for the UI cannot be derived. The requirements below define the expected behavior of the test generation process itself.*
+
+* **REQ-01: UI Element Identification**
+  * **Description**: The system must identify all interactive elements (buttons, links, inputs) visible in the provided screenshot.
+  * **Acceptance Criteria**:
+    * **Given** a valid UI screenshot, **When** analyzed, **Then** all visible interactive elements are listed for test generation.
+    * **Given** no screenshot is provided, **When** analyzed, **Then** the system halts and reports missing input.
+
+* **REQ-02: Test Design Technique Application**
+  * **Description**: The system must apply Equivalence Partitioning, Boundary Value Analysis, Decision Tables, State Transitions, and Error Guessing to the identified elements.
+  * **Acceptance Criteria**:
+    * **Given** an identified text input field, **When** generating tests, **Then** boundary value and equivalence partitioning test cases are created.
+    * **Given** a submit button, **When** generating tests, **Then** positive (success) and negative (error guessing) scenarios are created.
+
+* **REQ-03: Excel-Compatible Export Formatting**
+  * **Description**: Test cases must be output in a specific 10-column Markdown table.
+  * **Acceptance Criteria**:
+    * **Given** a generated set of test cases, **When** formatted, **Then** the table contains exactly the following columns: Test Case ID, Test Scenario, Test Case Description, Test Design Technique, Preconditions, Test Data, Test Steps, Expected Result, Priority, Test Type.
 
 # User Stories
-**Story 1: Requesting a reset link**
-As a Registered User, I want to request a password reset link by entering my email so that I can start the recovery process.
-- **Given** I am on the login page
-- **When** I click "Forgot Password" and submit my email address
-- **Then** I see a confirmation message instructing me to check my email, and the system dispatches an email if my account exists.
-
-**Story 2: Setting a new password**
-As a Registered User, I want to click a link in my email to securely set a new password so that I can log in again.
-- **Given** I have received a password reset email
-- **When** I click the reset link
-- **Then** I am taken to a secure page where I can enter and confirm a new password.
-
-**Story 3: Token expiration security**
-As a Registered User, I want my reset link to expire after a short time so that my account remains secure if my email is compromised later.
-- **Given** 15 minutes have passed since I requested a reset
-- **When** I click the reset link in my email
-- **Then** I am informed the link has expired and am provided a button to request a new one.
+* **US-01**: As a QA Tester, I want to receive test cases in a structured 10-column format so that I can easily copy them into Excel or a Test Management Tool.
+  * **Acceptance Criteria**: Given the test generation is complete, When I view the output, Then it is a Markdown table with the exact requested headers.
+* **US-02**: As a QA Tester, I want both positive and negative scenarios included so that I can ensure the application handles invalid input gracefully.
+  * **Acceptance Criteria**: Given a form field in the screenshot, When test cases are generated, Then there is at least one positive test and one negative test (e.g., invalid data format) documented.
 
 # Inputs, Outputs & Data Flow
-**Inputs:**
-- User Email Address (string, email format)
-- New Password (string, masked)
-- Confirm New Password (string, masked)
+**Inputs**:
+* Target UI Screenshot (Currently missing/null).
 
-**Outputs:**
-- Password Reset Email (HTML/Text)
-- UI Success/Error Messages
+**Outputs**:
+* Test Case Table (Markdown format).
 
-**Data Entities / Models Touched:**
-- `User`: 
-  - Read: Find by email.
-  - Update: `password_hash`, `updated_at`.
-- `PasswordResetToken`: 
-  - Create: `token_hash`, `user_id`, `expires_at`.
-  - Update: `used_at` (to invalidate after successful reset).
-
-# Flows & Diagrams
-
+**Data Flow**:
 ```mermaid
 flowchart TD
-    A[User clicks Forgot Password] --> B[Enter Email Address]
-    B --> C{Valid Email Format?}
-    C -- No --> D[Show Validation Error]
-    C -- Yes --> E[Submit Request]
-    E --> F{Email in Database?}
-    F -- Yes --> G[Generate Token & Save to DB]
-    G --> H[Send Reset Email]
-    H --> I[Show Generic Success Message]
-    F -- No --> I
-    I --> J[User Clicks Email Link]
-    J --> K{Token Valid & Unexpired?}
-    K -- No --> L[Show Invalid/Expired Error]
-    K -- Yes --> M[Show New Password Form]
-    M --> N[Submit New Password]
-    N --> O{Meets Complexity?}
-    O -- No --> P[Show Complexity Error]
-    O -- Yes --> Q[Hash Password & Update DB]
-    Q --> R[Mark Token as Used]
-    R --> S[Show Success & Redirect to Login]
+    A[Receive Prompt] --> B{Screenshot Provided?}
+    B -- Yes --> C[Identify UI Elements]
+    C --> D[Determine Validations & Boundaries]
+    D --> E[Apply Test Design Techniques]
+    E --> F[Generate Sequential Test Cases]
+    F --> G[Format as 10-Column Table]
+    B -- No --> H[Report Missing Input Error]
+    H --> G
 ```
 
 # Edge Cases & Error States
-- **Unregistered Email:** If a user submits an email not in the database, the system acts as if successful to prevent enumeration. No email is sent, and no token is generated.
-- **Expired Token:** If a user clicks a link after the 15-minute window, the system displays a "Link expired" error state and offers a button to navigate back to the "Forgot Password" request page.
-- **Used Token:** If a user clicks a link that has already been used to successfully reset a password, the system displays a "Link already used" error state.
-- **Rate Limiting:** If a user submits the forgot password form more than 5 times in 5 minutes from the same IP or for the same email, the system blocks further requests for 15 minutes and displays "Too many requests. Please try again later."
-- **Password Mismatch:** If "New Password" and "Confirm Password" do not match, the UI prevents submission and displays an inline error.
+* **Missing Screenshot (Current State)**: The prompt requests analysis of a screenshot, but no image data or URL was provided. The system must gracefully report this failure rather than hallucinating UI elements.
+* **Ambiguous UI Elements**: Elements that look like buttons but might be static graphics. (Handled via Error Guessing and noting assumptions in preconditions).
+* **Unclear Field Constraints**: Text fields without visible labels or constraints. (Handled by applying standard Equivalence Partitioning for generic strings).
 
 # Acceptance Criteria
-- **Given** a user submits a valid, registered email, **When** the system processes the request, **Then** a token is generated in the database and an email is dispatched to the user within 5 seconds.
-- **Given** a user submits an unregistered email, **When** the system processes the request, **Then** the UI shows the exact same success message as a registered email, and no reset token is generated.
-- **Given** a user accesses a valid reset link, **When** they submit a password that fails complexity rules, **Then** the system rejects the update, does not invalidate the token, and displays specific complexity requirements.
-- **Given** a user successfully updates their password, **When** they attempt to use the same reset link again, **Then** the system denies access and states the link has already been used.
-- **Given** a user triggers the rate limit threshold, **When** they attempt to request another reset, **Then** the system rejects the request and displays a rate limit warning.
+* **Given** the requirement to generate a test case table, **When** the output is rendered, **Then** it must strictly adhere to the requested column structure and sequential ID format (TC_001, TC_002, etc.).
+* **Given** the rule to not assume functionality, **When** no screenshot is provided, **Then** the output table must reflect the inability to generate specific tests rather than inventing a fake UI.
 
 # Non-Functional Requirements
-- **Security:** Passwords must be hashed using bcrypt or Argon2. Tokens must be generated using a cryptographically secure pseudo-random number generator (CSPRNG) and only the hashed version of the token should be stored in the database.
-- **Performance:** The forgot password request must return a UI response in < 500ms to prevent timing attacks that could reveal if an email exists.
-- **Reliability:** Email delivery must have a 99.9% success rate via the integrated provider.
+* **Formatting**: Output must be valid Markdown, specifically utilizing standard Markdown tables to ensure compatibility with copy-pasting into spreadsheet software.
+* **Clarity**: Test steps must be written in imperative mood, clear, simple, and non-duplicate.
 
 # Assumptions
-- An email delivery service (e.g., SendGrid, AWS SES) is already integrated and available for use by the backend.
-- The application already has a defined password complexity policy (e.g., minimum 8 characters, 1 uppercase, 1 number) that can be reused for validation.
-- The system uses a relational database for user management.
+* It is assumed the user intended to attach or upload an image file, but the current text-based interface did not capture or transmit the image payload.
+* It is assumed that standard web/application UI patterns apply to the intended screenshot (e.g., red text indicates an error, asterisks indicate required fields).
 
 # Dependencies
-- Third-party Email Provider API.
-- Frontend routing for the `/forgot-password` and `/reset-password` views.
+* Image parsing / multimodal capability to view the source screenshot.
 
 # Open Questions
-- What is the exact copy/HTML template for the password reset email?
-- What are the exact password complexity rules we are enforcing for this specific application?
-- Should active user sessions (if any exist on other devices) be automatically invalidated when a password is reset?
+* **CRITICAL**: No screenshot was provided in the prompt. What is the specific application, screen, or UI that needs to be tested?
+* Are there specific business rules, character limits, or backend constraints for the fields in the intended screenshot that cannot be deduced purely from visual inspection?
+* What is the target platform for the UI (e.g., Web, iOS, Android, Desktop)? This affects standard UI interaction steps (e.g., "Click" vs. "Tap").
 
 # Success Metrics
-- **KPI 1:** 95% completion rate for initiated password resets (measured as successful password updates divided by valid reset emails sent).
-- **KPI 2:** 80% reduction in customer support tickets categorized under "Cannot log in / Forgot Password" within 30 days of launch.
+* 100% of visible interactive elements in the (future) screenshot have corresponding test cases.
+* 0 instances of hallucinated or assumed functionality not present in the image.
+* 100% compliance with the requested 10-column table format.
+
+---
+
+### Output: Test Case Table
+*Note: Because the screenshot was not provided, the table below demonstrates the requested format and handles the current error state (Missing Input). Once the screenshot is provided, this table will be populated with the actual UI test cases.*
+
+| Test Case ID | Test Scenario | Test Case Description | Test Design Technique | Preconditions | Test Data | Test Steps | Expected Result | Priority | Test Type |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| TC_001 | Image Upload Validation | Verify system behavior when screenshot is missing | Error Guessing | User submits prompt without image attachment | Null / No Image | 1. Submit prompt requesting visual analysis.<br>2. Do not attach any image file. | System identifies missing input and requests the screenshot without hallucinating UI elements. | High | Negative Testing |
+| TC_002 | UI Element Identification | Verify all buttons and links are identified | Positive Testing | Valid screenshot is provided | [Pending Image] | 1. Provide valid screenshot.<br>2. Scan for interactive elements. | All visible buttons, links, and fields are documented as test targets. | High | Positive Testing |
+| TC_003 | Field Boundary Validation | Verify boundary limits of visible text inputs | Boundary Value Analysis | Valid screenshot with text inputs provided | [Pending Image] | 1. Identify text input constraints.<br>2. Enter data at exact boundary limits. | Input is accepted or rejected according to visible UI constraints. | Medium | Positive/Negative |
